@@ -42,3 +42,7 @@ The widget needs to know if Spotify is running to connect to it's D-Bus interfac
         end
     }
     ```
+
+## Preview
+
+![Preview](preview.png)
