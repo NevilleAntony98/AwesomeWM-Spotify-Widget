@@ -5,7 +5,6 @@ local Proxy = require("dbus_proxy")
 local ui_content = require("widget.spotify.content")
 local album_cover = ui_content.album_cover
 local song_info = ui_content.song_info
-local vol_slider = ui_content.volume_slider
 local media_buttons = ui_content.media_buttons
 
 local config_dir = gears.filesystem.get_configuration_dir()
@@ -106,6 +105,18 @@ local update_song_info = function()
 end
 
 local is_spotify_open = false
+
+-- check if spotify is running once on startup to update widget in case when AwesomeWM was restarted
+awful.spawn.easy_async_with_shell(
+	'pgrep spotify',
+	function(stdout)
+		if not (stdout == nil or stdout == '') then
+			is_spotify_open = true
+			update_song_info()
+		end
+	end
+)
+
 local on_spotify_stopped = function()
 	is_spotify_open = false
 	set_default_cover()
